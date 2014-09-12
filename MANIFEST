@@ -1,4 +1,3 @@
-Build.PL
 Changes
 MANIFEST
 MANIFEST.SKIP
@@ -9,9 +8,8 @@ lib/Calendar/Saka.pm
 t/00-load.t
 t/manifest.t
 t/pod.t
-META.yml
 t/01-test-case.t
 t/02-test-case.t
 t/03-test-case.t
 t/04-test-case.t
-SIGNATURE    Added here by Module::Build
+t/05-test-case.t

@@ -1,19 +1,49 @@
 Revision history for Calendar-Saka
 
-0.04    Tue Mar 29 10:53:10 2011
-        - Added more information about the month name and weekdays of Saka calendar.
+1.11  Fri Sep 12 22:30:19 2014
+      - Deleted Build.PL file.
+      - Removed dependency of Readonly.pm and Carp.pm.
+      - Added section "REPOSITORY" to the pod
+      - Added key "META_MERGE" to Makefile.PL
 
-0.03    Fri Mar 18 14:15:16 2011
-        - Corrected typo in the SYNOPSIS.
+1.10  Tue Aug 09 16:32:11 2011
+      - Made Readonly v1.03 as minimum requirement.
+      - Prepared the distribution using the Module::Signature v0.68.
 
-0.02    Fri Mar 18 12:29:00 2011
-        - Renamed month "Caitra" to "Chaitra".
-        - Updated SYNOPSIS to tell more about Saka Calendar.
-        - Renamed method _days_in_caitra() to _days_in_chaitra().
-        - Updated method to_julian() and from_julian() for month name "Chaitra".
-        - Cleaned up method as_string() and method get_calendar().
-        - Updated test 04-test-case.t for month name "Chaitra".
-        - Updated pod for method days_in_year_month().
+0.09  Tue Apr 19 10:42:55 2011
+      - Fixed the typo in the pod.
 
-0.01    Thu Mar 17 16:10:29 2011
-        - First version released.
+0.08  Tue Apr 19 09:36:29 2011
+      - Renamed tilte "SYNOPSIS" to "DESCRIPTION".
+
+0.07  Mon Apr 18 17:22:11 2011
+      - Updated description.
+      - Renamed method days_in_year_month() to days_in_month().
+      - Updated unit test 01-test-case.t regarding method name change.
+
+0.06  Mon Apr 18 16:54:00 2011
+      - Renamed title "Month Names" to "MONTHS" and set it head1.
+      - Removed title "Saka Calendar for the month of Phalgun year 1932.".
+      - Cosmetics changes.
+
+0.05  Tue Apr 12 12:05:00 2011
+      - Fixed buggy internal method _validate_date().
+      - Added unit test 05-test-case.t
+
+0.04  Tue Mar 29 10:53:10 2011
+      - Added more information about the month name and weekdays of Saka calendar.
+
+0.03  Fri Mar 18 14:15:16 2011
+      - Corrected typo in the SYNOPSIS.
+
+0.02  Fri Mar 18 12:29:00 2011
+      - Renamed month "Caitra" to "Chaitra".
+      - Updated SYNOPSIS to tell more about Saka Calendar.
+      - Renamed method _days_in_caitra() to _days_in_chaitra().
+      - Updated method to_julian() and from_julian() for month name "Chaitra".
+      - Cleaned up method as_string() and method get_calendar().
+      - Updated test 04-test-case.t for month name "Chaitra".
+      - Updated pod for method days_in_year_month().
+
+0.01  Thu Mar 17 16:10:29 2011
+      - First version released.
