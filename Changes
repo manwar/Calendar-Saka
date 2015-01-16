@@ -1,5 +1,10 @@
 Revision history for Calendar-Saka
 
+1.12  Fri Jan 16 15:20:10 2015
+      - Removed SIGNATURE file.
+      - Updated MANIFEST.SKIP file to ignore folder 'eumm/'.
+      - Updated Copyright year information.
+
 1.11  Fri Sep 12 22:30:19 2014
       - Deleted Build.PL file.
       - Removed dependency of Readonly.pm and Carp.pm.

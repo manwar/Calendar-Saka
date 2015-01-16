@@ -1,8 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.11';
-
-use strict; use warnings;
+$Calendar::Saka::VERSION = '1.12';
 
 =head1 NAME
 
@@ -10,10 +8,11 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.11
+Version 1.12
 
 =cut
 
+use strict; use warnings;
 use Data::Dumper;
 use POSIX qw/floor/;
 use Time::localtime;
@@ -715,7 +714,7 @@ Inc. and co-author of AutoCAD.
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2011 - 2014 Mohammad S Anwar.
+Copyright (C) 2011 - 2015 Mohammad S Anwar.
 
 This  program  is  free software; you can redistribute it and/or modify it under
 the  terms  of the the Artistic License (2.0). You may obtain a copy of the full

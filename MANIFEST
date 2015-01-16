@@ -1,7 +1,6 @@
 Changes
 MANIFEST
 MANIFEST.SKIP
-SIGNATURE
 Makefile.PL
 README
 lib/Calendar/Saka.pm
