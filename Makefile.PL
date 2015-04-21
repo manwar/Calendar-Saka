@@ -18,9 +18,11 @@ WriteMakefile(
         'Test::More' => 0,
     },
     PREREQ_PM     => {
-        'Time::localtime' => 1.02,
-        'List::Util'      => 1.21,
-        'Date::Calc'      => 5.7,
+        'Moo'                     => 0,
+        'namespace::clean'        => 0,
+        'Date::Utils'             => '0.06',
+        'Date::Saka::Simple'      => 0,
+        'Term::ANSIColor::Markup' => '0.06'
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Calendar-Saka-*' },

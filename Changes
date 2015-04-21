@@ -1,5 +1,8 @@
 Revision history for Calendar-Saka
 
+1.13  Tue Apr 21 10:20:10 2015
+      - Complete re-write using Moo with unit tests.
+
 1.12  Fri Jan 16 15:20:10 2015
       - Removed SIGNATURE file.
       - Updated MANIFEST.SKIP file to ignore folder 'eumm/'.
