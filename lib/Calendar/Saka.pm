@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.13';
+$Calendar::Saka::VERSION = '1.14';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.13
+Version 1.14
 
 =cut
 
@@ -225,8 +225,8 @@ sub _calendar {
         }
         elsif ($_ == $days) {
             my $x = 7 - (($start_index + $_) % 7);
+            $calendar .= '<blue><bold>|</bold></blue>                ';
             if (($x >= 2) && ($x != 7)) {
-                $calendar .= '<blue><bold>|</bold></blue>                ';
                 map { $calendar .= ' 'x17 } (1..$x-1);
             }
         }

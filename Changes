@@ -1,5 +1,8 @@
 Revision history for Calendar-Saka
 
+1.14  Tue Apr 21 13:50:10 2015
+      - Fixed the bug in the method _calendar() the last cell is empty.
+
 1.13  Tue Apr 21 10:20:10 2015
       - Complete re-write using Moo with unit tests.
 
