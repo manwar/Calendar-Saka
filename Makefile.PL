@@ -20,8 +20,8 @@ WriteMakefile(
     PREREQ_PM     => {
         'Moo'                     => 0,
         'namespace::clean'        => 0,
-        'Date::Utils'             => '0.06',
-        'Date::Saka::Simple'      => 0,
+        'Date::Utils::Saka'       => 0,
+        'Date::Saka::Simple'      => '0.03',
         'Term::ANSIColor::Markup' => '0.06'
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },

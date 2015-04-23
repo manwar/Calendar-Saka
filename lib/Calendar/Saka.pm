@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.14';
+$Calendar::Saka::VERSION = '1.15';
 
 =head1 NAME
 
@@ -8,34 +8,29 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.14
+Version 1.15
 
 =cut
 
 use Data::Dumper;
 use Term::ANSIColor::Markup;
 use Date::Saka::Simple;
-use Date::Utils qw(
-    $SAKA_YEAR
-    $SAKA_MONTH
-    $SAKA_MONTHS
-    $SAKA_DAYS
-
-    julian_to_saka
-    gregorian_to_julian
-    days_in_saka_month_year
-);
 
 use Moo;
 use namespace::clean;
 
 use overload q{""} => 'as_string', fallback => 1;
 
-has year  => (is => 'rw', isa => $SAKA_YEAR,  predicate => 1);
-has month => (is => 'rw', isa => $SAKA_MONTH, predicate => 1);
+has year  => (is => 'rw', predicate => 1);
+has month => (is => 'rw', predicate => 1);
+
+with 'Date::Utils::Saka';
 
 sub BUILD {
     my ($self) = @_;
+
+    $self->validate_year($self->year)   if $self->has_year;
+    $self->validate_month($self->month) if $self->has_month;
 
     unless ($self->has_year && $self->has_month) {
         my $date = Date::Saka::Simple->new;
@@ -141,7 +136,7 @@ sub current {
     my ($self) = @_;
 
     my $date = Date::Saka::Simple->new;
-    return _calendar($date->year, $date->month);
+    return $self->_calendar($date->year, $date->month);
 }
 
 =head2 from_gregorian()
@@ -158,7 +153,7 @@ Returns saka month calendar in which the given gregorian date falls in.
 sub from_gregorian {
     my ($self, $year, $month, $day) = @_;
 
-    return $self->from_julian(gregorian_to_julian($year, $month, $day));
+    return $self->from_julian($self->gregorian_to_julian($year, $month, $day));
 }
 
 =head2 from_julian($julian_date)
@@ -175,14 +170,14 @@ Returns saka month calendar in which the given julian date falls in.
 sub from_julian {
     my ($self, $julian) = @_;
 
-    my ($year, $month, $day) = julian_to_saka($julian);
-    return _calendar($year, $month);
+    my ($year, $month, $day) = $self->julian_to_saka($julian);
+    return $self->_calendar($year, $month);
 }
 
 sub as_string {
     my ($self) = @_;
 
-    return _calendar($self->year, $self->month);
+    return $self->_calendar($self->year, $self->month);
 }
 
 #
@@ -190,16 +185,16 @@ sub as_string {
 # PRIVATE METHODS
 
 sub _calendar {
-    my ($year, $month) = @_;
+    my ($self, $year, $month) = @_;
 
     my $date = Date::Saka::Simple->new({ year => $year, month => $month, day => 1 });
     my $start_index = $date->day_of_week;
-    my $days = days_in_saka_month_year($month, $year);
+    my $days = $self->days_in_saka_month_year($month, $year);
 
     my $line1 = '<blue><bold>+' . ('-')x118 . '+</bold></blue>';
     my $line2 = '<blue><bold>|</bold></blue>' .
                 (' ')x49 . '<yellow><bold>' .
-                sprintf("%-10s [%4d BE]", $SAKA_MONTHS->[$month], $year) .
+                sprintf("%-10s [%4d BE]", $self->saka_months->[$month], $year) .
                 '</bold></yellow>' . (' ')x49 . '<blue><bold>|</bold></blue>';
     my $line3 = '<blue><bold>+';
 
@@ -209,7 +204,7 @@ sub _calendar {
     $line3 .= '</bold></blue>';
 
     my $line4 = '<blue><bold>|</bold></blue>' .
-                join("<blue><bold>|</bold></blue>", @$SAKA_DAYS) .
+                join("<blue><bold>|</bold></blue>", @{$self->saka_days}) .
                 '<blue><bold>|</bold></blue>';
 
     my $calendar = join("\n", $line1, $line2, $line3, $line4, $line3)."\n";
