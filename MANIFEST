@@ -3,6 +3,7 @@ MANIFEST
 MANIFEST.SKIP
 Makefile.PL
 README
+LICENSE
 lib/Calendar/Saka.pm
 t/00-load.t
 t/manifest.t

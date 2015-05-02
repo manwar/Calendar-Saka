@@ -1,5 +1,8 @@
 Revision history for Calendar-Saka
 
+1.16  Sat May 02 20:50:00 2015
+      - Added LICENSE file.
+
 1.15  Thu Apr 23 23:45:00 2015
       - Re-structured and consumed Date::Utils::Saka as Moo Role.
 
