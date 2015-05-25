@@ -1,5 +1,10 @@
 Revision history for Calendar-Saka
 
+1.17  Mon May 25 14:40:00 2015
+      - Dropped the dependency on Date::Utils::Saka.
+      - Upgraded the dependency on Date::Saka::Simple v0.05.
+      - Updated code w.r.t the above changes.
+
 1.16  Sat May 02 20:50:00 2015
       - Added LICENSE file.
 

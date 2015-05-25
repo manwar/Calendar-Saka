@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.16';
+$Calendar::Saka::VERSION = '1.17';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.16
+Version 1.17
 
 =cut
 
@@ -23,19 +23,17 @@ use overload q{""} => 'as_string', fallback => 1;
 
 has year  => (is => 'rw', predicate => 1);
 has month => (is => 'rw', predicate => 1);
-
-with 'Date::Utils::Saka';
+has date  => (is => 'ro', default   => sub { Date::Saka::Simple->new });
 
 sub BUILD {
     my ($self) = @_;
 
-    $self->validate_year($self->year)   if $self->has_year;
-    $self->validate_month($self->month) if $self->has_month;
+    $self->date->validate_year($self->year)   if $self->has_year;
+    $self->date->validate_month($self->month) if $self->has_month;
 
     unless ($self->has_year && $self->has_month) {
-        my $date = Date::Saka::Simple->new;
-        $self->year($date->year);
-        $self->month($date->month);
+        $self->year($self->date->year);
+        $self->month($self->date->month);
     }
 }
 
@@ -86,6 +84,18 @@ for the month of Chaitra year 1937
 
 =head1 SYNOPSIS
 
+    use strict; use warnings;
+    use Calendar::Saka;
+
+    # prints current saka month calendar.
+    print Calendar::Saka->new->current, "\n";
+
+    # prints saka month calendar in which the given gregorian date falls in.
+    print Calendar::Saka->new->from_gregorian(2015, 4, 19), "\n";
+
+    # prints saka month calendar in which the given julian date falls in.
+    print Calendar::Saka->new->from_julian(2457102.5), "\n";
+
 =head1 SAKA MONTHS
 
     +-------+-------------------------------------------------------------------+
@@ -125,28 +135,17 @@ for the month of Chaitra year 1937
 
 Returns current month of the Saka calendar.
 
-    use strict; use warnings;
-    use Calendar::Saka;
-
-    print Calendar::Saka->new->current, "\n";
-
 =cut
 
 sub current {
     my ($self) = @_;
 
-    my $date = Date::Saka::Simple->new;
-    return $self->_calendar($date->year, $date->month);
+    return $self->_calendar($self->date->year, $self->date->month);
 }
 
 =head2 from_gregorian()
 
 Returns saka month calendar in which the given gregorian date falls in.
-
-    use strict; use warnings;
-    use Calendar::Saka;
-
-    print Calendar::Saka->new->from_gregorian(2015, 4, 19);
 
 =cut
 
@@ -160,18 +159,13 @@ sub from_gregorian {
 
 Returns saka month calendar in which the given julian date falls in.
 
-    use strict; use warnings;
-    use Calendar::Saka;
-
-    print Calendar::Saka->new->from_julian(2457102.5), "\n";
-
 =cut
 
 sub from_julian {
     my ($self, $julian) = @_;
 
-    my ($year, $month, $day) = $self->julian_to_saka($julian);
-    return $self->_calendar($year, $month);
+    my $date = $self->from_julian($julian);
+    return $self->_calendar($date->year, $date->month);
 }
 
 sub as_string {
@@ -189,12 +183,12 @@ sub _calendar {
 
     my $date = Date::Saka::Simple->new({ year => $year, month => $month, day => 1 });
     my $start_index = $date->day_of_week;
-    my $days = $self->days_in_saka_month_year($month, $year);
+    my $days = $self->date->days_in_saka_month_year($month, $year);
 
     my $line1 = '<blue><bold>+' . ('-')x118 . '+</bold></blue>';
     my $line2 = '<blue><bold>|</bold></blue>' .
                 (' ')x49 . '<yellow><bold>' .
-                sprintf("%-10s [%4d BE]", $self->saka_months->[$month], $year) .
+                sprintf("%-10s [%4d BE]", $self->date->saka_months->[$month], $year) .
                 '</bold></yellow>' . (' ')x49 . '<blue><bold>|</bold></blue>';
     my $line3 = '<blue><bold>+';
 
@@ -204,7 +198,7 @@ sub _calendar {
     $line3 .= '</bold></blue>';
 
     my $line4 = '<blue><bold>|</bold></blue>' .
-                join("<blue><bold>|</bold></blue>", @{$self->saka_days}) .
+                join("<blue><bold>|</bold></blue>", @{$self->date->saka_days}) .
                 '<blue><bold>|</bold></blue>';
 
     my $calendar = join("\n", $line1, $line2, $line3, $line4, $line3)."\n";
