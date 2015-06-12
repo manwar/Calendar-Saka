@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.17';
+$Calendar::Saka::VERSION = '1.18';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.17
+Version 1.18
 
 =cut
 
@@ -180,6 +180,9 @@ sub as_string {
 
 sub _calendar {
     my ($self, $year, $month) = @_;
+
+    $self->date->validate_month($month);
+    $self->date->validate_year($year);
 
     my $date = Date::Saka::Simple->new({ year => $year, month => $month, day => 1 });
     my $start_index = $date->day_of_week;

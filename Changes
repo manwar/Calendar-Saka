@@ -1,5 +1,8 @@
 Revision history for Calendar-Saka
 
+0.18  Fri Jun 12 10:00:00 2015
+      - Updated method _calendar() to validate month and year.
+
 1.17  Mon May 25 14:40:00 2015
       - Dropped the dependency on Date::Utils::Saka.
       - Upgraded the dependency on Date::Saka::Simple v0.05.
