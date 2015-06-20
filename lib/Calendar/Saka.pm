@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.18';
+$Calendar::Saka::VERSION = '1.19';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.18
+Version 1.19
 
 =cut
 
@@ -152,7 +152,7 @@ Returns saka month calendar in which the given gregorian date falls in.
 sub from_gregorian {
     my ($self, $year, $month, $day) = @_;
 
-    return $self->from_julian($self->gregorian_to_julian($year, $month, $day));
+    return $self->from_julian($self->date->gregorian_to_julian($year, $month, $day));
 }
 
 =head2 from_julian($julian_date)

@@ -1,6 +1,9 @@
 Revision history for Calendar-Saka
 
-0.18  Fri Jun 12 10:00:00 2015
+1.19  Sat Jun 20 19:40:00 2015
+      - Fixed the bug in the method from_gregorian().
+
+1.18  Fri Jun 12 10:00:00 2015
       - Updated method _calendar() to validate month and year.
 
 1.17  Mon May 25 14:40:00 2015
