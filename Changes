@@ -1,5 +1,9 @@
 Revision history for Calendar-Saka
 
+1.20  Tue Jun 30 11:00:00 2015
+      - Upgraded the dependency on Date::Saka::Simple v0.06.
+      - Removed the dependecy on Date::Utils, no longer required.
+
 1.19  Sat Jun 20 19:40:00 2015
       - Fixed the bug in the method from_gregorian().
 

@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.19';
+$Calendar::Saka::VERSION = '1.20';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.19
+Version 1.20
 
 =cut
 

@@ -14,14 +14,13 @@ WriteMakefile(
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 0,
     },
-    BUILD_REQUIRES => {
+    BUILD_REQUIRES   => {
         'Test::More' => 0,
     },
-    PREREQ_PM     => {
-        'Moo'                     => 0,
-        'namespace::clean'        => 0,
-        'Date::Utils'             => '0.08',
-        'Date::Saka::Simple'      => '0.05',
+    PREREQ_PM => {
+        'Moo'                     => '2.000000',
+        'namespace::clean'        => '0.24',
+        'Date::Saka::Simple'      => '0.06',
         'Term::ANSIColor::Markup' => '0.06'
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
