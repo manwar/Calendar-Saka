@@ -1,5 +1,8 @@
 Revision history for Calendar-Saka
 
+1.21  Fri Jul 10 10:05:00 2015
+      - Upgraded to use Date::Saka::Simple v0.07.
+
 1.20  Tue Jun 30 11:00:00 2015
       - Upgraded the dependency on Date::Saka::Simple v0.06.
       - Removed the dependecy on Date::Utils, no longer required.
