@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.21';
+$Calendar::Saka::VERSION = '1.22';
 
 =head1 NAME
 
@@ -8,12 +8,11 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.21
+Version 1.22
 
 =cut
 
 use Data::Dumper;
-use Term::ANSIColor::Markup;
 use Date::Saka::Simple;
 
 use Moo;
@@ -140,7 +139,7 @@ Returns current month of the Saka calendar.
 sub current {
     my ($self) = @_;
 
-    return $self->_calendar($self->date->year, $self->date->month);
+    return $self->date->get_calendar($self->date->month, $self->date->year);
 }
 
 =head2 from_gregorian()
@@ -165,68 +164,13 @@ sub from_julian {
     my ($self, $julian) = @_;
 
     my $date = $self->from_julian($julian);
-    return $self->_calendar($date->year, $date->month);
+    return $self->date->get_calendar($date->month, $date->year);
 }
 
 sub as_string {
     my ($self) = @_;
 
-    return $self->_calendar($self->year, $self->month);
-}
-
-#
-#
-# PRIVATE METHODS
-
-sub _calendar {
-    my ($self, $year, $month) = @_;
-
-    $self->date->validate_month($month);
-    $self->date->validate_year($year);
-
-    my $date = Date::Saka::Simple->new({ year => $year, month => $month, day => 1 });
-    my $start_index = $date->day_of_week;
-    my $days = $self->date->days_in_saka_month_year($month, $year);
-
-    my $line1 = '<blue><bold>+' . ('-')x118 . '+</bold></blue>';
-    my $line2 = '<blue><bold>|</bold></blue>' .
-                (' ')x49 . '<yellow><bold>' .
-                sprintf("%-10s [%4d BE]", $self->date->saka_months->[$month], $year) .
-                '</bold></yellow>' . (' ')x49 . '<blue><bold>|</bold></blue>';
-    my $line3 = '<blue><bold>+';
-
-    for(1..7) {
-        $line3 .= ('-')x(16) . '+';
-    }
-    $line3 .= '</bold></blue>';
-
-    my $line4 = '<blue><bold>|</bold></blue>' .
-                join("<blue><bold>|</bold></blue>", @{$self->date->saka_days}) .
-                '<blue><bold>|</bold></blue>';
-
-    my $calendar = join("\n", $line1, $line2, $line3, $line4, $line3)."\n";
-    if ($start_index % 7 != 0) {
-        $calendar .= '<blue><bold>|</bold></blue>                ';
-        map { $calendar .= "                 " } (2..($start_index %= 7));
-    }
-    foreach (1 .. $days) {
-        $calendar .= sprintf("<blue><bold>|</bold></blue><cyan><bold>%15d </bold></cyan>", $_);
-        if ($_ != $days) {
-            $calendar .= "<blue><bold>|</bold></blue>\n" . $line3 . "\n"
-                unless (($start_index + $_) % 7);
-        }
-        elsif ($_ == $days) {
-            my $x = 7 - (($start_index + $_) % 7);
-            $calendar .= '<blue><bold>|</bold></blue>                ';
-            if (($x >= 2) && ($x != 7)) {
-                map { $calendar .= ' 'x17 } (1..$x-1);
-            }
-        }
-    }
-
-    $calendar = sprintf("%s<blue><bold>|</bold></blue>\n%s\n", $calendar, $line3);
-
-    return Term::ANSIColor::Markup->colorize($calendar);
+    return $self->date->get_calendar($self->month, $self->year);
 }
 
 =head1 AUTHOR

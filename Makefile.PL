@@ -18,10 +18,9 @@ WriteMakefile(
         'Test::More' => 0,
     },
     PREREQ_PM => {
-        'Moo'                     => '2.000000',
-        'namespace::clean'        => '0.24',
-        'Date::Saka::Simple'      => '0.07',
-        'Term::ANSIColor::Markup' => '0.06'
+        'Moo'                => '2.000000',
+        'namespace::clean'   => '0.24',
+        'Date::Saka::Simple' => '0.08',
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Calendar-Saka-*' },
