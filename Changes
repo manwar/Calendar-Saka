@@ -1,7 +1,10 @@
 Revision history for Calendar-Saka
 
+1.23  Sat Aug 29 14:55:00 2015
+      - Upgraded to use Date::Saka::Simple v0.09.
+
 1.22  Tue Aug 11 11:45:00 2015
-      - Upgraded to use Date::Saka::Simple v0.08
+      - Upgraded to use Date::Saka::Simple v0.08.
       - Making use of the method get_calendar() provided by Date::Saka::Simple.
 
 1.21  Fri Jul 10 10:05:00 2015

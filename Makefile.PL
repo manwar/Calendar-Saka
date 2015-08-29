@@ -20,7 +20,7 @@ WriteMakefile(
     PREREQ_PM => {
         'Moo'                => '2.000000',
         'namespace::clean'   => '0.24',
-        'Date::Saka::Simple' => '0.08',
+        'Date::Saka::Simple' => '0.09',
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Calendar-Saka-*' },
