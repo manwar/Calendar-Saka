@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.23';
+$Calendar::Saka::VERSION = '1.24';
 
 =head1 NAME
 
@@ -8,7 +8,7 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.23
+Version 1.24
 
 =cut
 
@@ -18,11 +18,15 @@ use Date::Saka::Simple;
 use Moo;
 use namespace::clean;
 
+use Role::Tiny qw();
+use Module::Pluggable search_path => ['Calendar::Plugin'], require => 1, max_depth => 3;
+
 use overload q{""} => 'as_string', fallback => 1;
 
-has year  => (is => 'rw', predicate => 1);
-has month => (is => 'rw', predicate => 1);
-has date  => (is => 'ro', default   => sub { Date::Saka::Simple->new });
+has year    => (is => 'rw', predicate => 1);
+has month   => (is => 'rw', predicate => 1);
+has date    => (is => 'ro', default   => sub { Date::Saka::Simple->new });
+has _plugin => (is => 'rw', default   => sub { 0 });
 
 sub BUILD {
     my ($self) = @_;
@@ -33,6 +37,13 @@ sub BUILD {
     unless ($self->has_year && $self->has_month) {
         $self->year($self->date->year);
         $self->month($self->date->month);
+    }
+
+    my $plugins = [ Calendar::Saka::plugins ];
+    foreach (@{$plugins}) {
+        next unless ($_ eq 'Calendar::Plugin::Renderer');
+        Role::Tiny->apply_roles_to_object($self, $_);
+        $self->_plugin(1);
     }
 }
 
@@ -94,6 +105,10 @@ for the month of Chaitra year 1937
 
     # prints saka month calendar in which the given julian date falls in.
     print Calendar::Saka->new->from_julian(2457102.5), "\n";
+
+    # prints current month saka calendar in SVG format if the plugin
+    # Calendar::Plugin::Renderer v0.04 or above is installed.
+    print Calendar::Saka->new->as_svg;
 
 =head1 SAKA MONTHS
 
@@ -167,6 +182,37 @@ sub from_julian {
     return $self->date->get_calendar($date->month, $date->year);
 }
 
+=head2 as_svg($month, $year)
+
+Returns calendar for the given C<$month> and C<$year> rendered  in SVG format. If
+C<$month> and C<$year> missing, it would return current calendar month.The Plugin
+L<Calendar::Plugin::Renderer> v0.04 or above must be installed for this to work.
+
+=cut
+
+sub as_svg {
+    my ($self, $month, $year) = @_;
+
+    die "ERROR: Plugin Calendar::Plugin::Renderer v0.04 or above is missing,".
+        "please install it first.\n" unless ($self->_plugin);
+
+    if (defined $month && defined $year) {
+        $self->date->validate_month($month);
+        $self->date->validate_year($year);
+    }
+    else {
+        $month = $self->month;
+        $year  = $self->year;
+    }
+
+    my $date = Date::Saka::Simple->new({ year => $year, month => $month, day => 1 });
+    return $self->svg_calendar({
+        start_index => $date->day_of_week + 1,
+        month_name  => $date->saka_months->[$month],
+        days        => $date->days_in_saka_month_year($month, $year),
+        year        => $year });
+}
+
 sub as_string {
     my ($self) = @_;
 
@@ -179,7 +225,7 @@ Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
 
 =head1 REPOSITORY
 
-L<https://github.com/Manwar/Calendar-Saka>
+L<https://github.com/manwar/Calendar-Saka>
 
 =head1 BUGS
 

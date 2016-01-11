@@ -9,18 +9,18 @@ WriteMakefile(
     VERSION_FROM       => 'lib/Calendar/Saka.pm',
     ABSTRACT_FROM      => 'lib/Calendar/Saka.pm',
     LICENSE            => 'artistic_2',
-    PL_FILES           => {},
     MIN_PERL_VERSION   => 5.006,
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 0,
     },
-    BUILD_REQUIRES   => {
-        'Test::More' => 0,
+    BUILD_REQUIRES     => {
+        'Test::More'   => 0,
     },
     PREREQ_PM => {
         'Moo'                => '2.000000',
         'namespace::clean'   => '0.24',
         'Date::Saka::Simple' => '0.09',
+        'Module::Pluggable'  => '5.1',
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Calendar-Saka-*' },
@@ -29,8 +29,8 @@ WriteMakefile(
         resources => {
             repository => {
                 type => 'git',
-                url  => 'https://github.com/Manwar/Calendar-Saka.git',
-                web  => 'https://github.com/Manwar/Calendar-Saka',
+                url  => 'https://github.com/manwar/Calendar-Saka.git',
+                web  => 'https://github.com/manwar/Calendar-Saka',
             },
         }})
      : ()
