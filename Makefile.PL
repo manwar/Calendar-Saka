@@ -19,7 +19,7 @@ WriteMakefile(
     PREREQ_PM => {
         'Moo'                => '2.000000',
         'namespace::clean'   => '0.24',
-        'Date::Saka::Simple' => '0.09',
+        'Date::Saka::Simple' => '0.12',
         'Module::Pluggable'  => '5.1',
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },

@@ -1,6 +1,7 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION = '1.24';
+$Calendar::Saka::VERSION   = '1.25';
+$Calendar::Saka::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
 
@@ -8,7 +9,7 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.24
+Version 1.25
 
 =cut
 
@@ -154,7 +155,7 @@ Returns current month of the Saka calendar.
 sub current {
     my ($self) = @_;
 
-    return $self->date->get_calendar($self->date->month, $self->date->year);
+    return $self->date->get_calendar;
 }
 
 =head2 from_gregorian()
@@ -178,27 +179,30 @@ Returns saka month calendar in which the given julian date falls in.
 sub from_julian {
     my ($self, $julian) = @_;
 
-    my $date = $self->from_julian($julian);
-    return $self->date->get_calendar($date->month, $date->year);
+    return $self->from_julian($julian)->get_calendar;
 }
 
 =head2 as_svg($month, $year)
 
 Returns calendar for the given C<$month> and C<$year> rendered  in SVG format. If
 C<$month> and C<$year> missing, it would return current calendar month.The Plugin
-L<Calendar::Plugin::Renderer> v0.04 or above must be installed for this to work.
+L<Calendar::Plugin::Renderer> v0.06 or above must be installed for this to work.
 
 =cut
 
 sub as_svg {
     my ($self, $month, $year) = @_;
 
-    die "ERROR: Plugin Calendar::Plugin::Renderer v0.04 or above is missing,".
+    die "ERROR: Plugin Calendar::Plugin::Renderer v0.06 or above is missing,".
         "please install it first.\n" unless ($self->_plugin);
 
     if (defined $month && defined $year) {
         $self->date->validate_month($month);
         $self->date->validate_year($year);
+
+        if ($month !~ /^\d+$/) {
+            $month = $self->get_month_number($month);
+        }
     }
     else {
         $month = $self->month;
@@ -206,10 +210,11 @@ sub as_svg {
     }
 
     my $date = Date::Saka::Simple->new({ year => $year, month => $month, day => 1 });
+
     return $self->svg_calendar({
         start_index => $date->day_of_week + 1,
-        month_name  => $date->saka_months->[$month],
-        days        => $date->days_in_saka_month_year($month, $year),
+        month_name  => $date->get_month_name,
+        days        => $date->days_in_month_year($month, $year),
         year        => $year });
 }
 
@@ -264,7 +269,7 @@ L<http://search.cpan.org/dist/Calendar-Saka/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (C) 2011 - 2015 Mohammad S Anwar.
+Copyright (C) 2011 - 2016 Mohammad S Anwar.
 
 This  program  is  free software; you can redistribute it and/or modify it under
 the  terms  of the the Artistic License (2.0). You may obtain a copy of the full

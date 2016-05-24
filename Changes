@@ -1,4 +1,11 @@
-Revision history for Calendar-Saka
+Revision history for Calendar::Saka
+
+1.25  Tue May 24 10:50:00 2016
+      - Upgraded to use Date::Saka::Simple v0.12.
+      - Updated copyright year information.
+      - Updated method as_svg() to handle month name.
+      - Refactored method current() and method from_gregorian().
+      - Updated pod document with regard to the Calendar::Plugin::Renderer v0.06.
 
 1.24  Mon Jan 11 09:45:00 2016
       - Added method as_svg() using the plugin Calendar::Plugin::Renderer.
