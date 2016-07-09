@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION   = '1.25';
+$Calendar::Saka::VERSION   = '1.26';
 $Calendar::Saka::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,25 +9,23 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.25
+Version 1.26
 
 =cut
 
+use 5.006;
 use Data::Dumper;
-use Date::Saka::Simple;
 
+use Date::Saka::Simple;
 use Moo;
 use namespace::clean;
-
-use Role::Tiny qw();
-use Module::Pluggable search_path => ['Calendar::Plugin'], require => 1, max_depth => 3;
+with 'Calendar::Plugin::Renderer';
 
 use overload q{""} => 'as_string', fallback => 1;
 
-has year    => (is => 'rw', predicate => 1);
-has month   => (is => 'rw', predicate => 1);
-has date    => (is => 'ro', default   => sub { Date::Saka::Simple->new });
-has _plugin => (is => 'rw', default   => sub { 0 });
+has year  => (is => 'rw', predicate => 1);
+has month => (is => 'rw', predicate => 1);
+has date  => (is => 'ro', default   => sub { Date::Saka::Simple->new });
 
 sub BUILD {
     my ($self) = @_;
@@ -38,13 +36,6 @@ sub BUILD {
     unless ($self->has_year && $self->has_month) {
         $self->year($self->date->year);
         $self->month($self->date->month);
-    }
-
-    my $plugins = [ Calendar::Saka::plugins ];
-    foreach (@{$plugins}) {
-        next unless ($_ eq 'Calendar::Plugin::Renderer');
-        Role::Tiny->apply_roles_to_object($self, $_);
-        $self->_plugin(1);
     }
 }
 
@@ -107,8 +98,7 @@ for the month of Chaitra year 1937
     # prints saka month calendar in which the given julian date falls in.
     print Calendar::Saka->new->from_julian(2457102.5), "\n";
 
-    # prints current month saka calendar in SVG format if the plugin
-    # Calendar::Plugin::Renderer v0.04 or above is installed.
+    # prints current month saka calendar in SVG format.
     print Calendar::Saka->new->as_svg;
 
 =head1 SAKA MONTHS
@@ -155,7 +145,7 @@ Returns current month of the Saka calendar.
 sub current {
     my ($self) = @_;
 
-    return $self->date->get_calendar;
+    return $self->as_text($self->date->month, $self->date->year);
 }
 
 =head2 from_gregorian()
@@ -179,29 +169,73 @@ Returns saka month calendar in which the given julian date falls in.
 sub from_julian {
     my ($self, $julian) = @_;
 
-    return $self->from_julian($julian)->get_calendar;
+    my $date = $self->from_julian($julian);
+    return $self->as_text($date->month, $date->year);
 }
 
 =head2 as_svg($month, $year)
 
 Returns calendar for the given C<$month> and C<$year> rendered  in SVG format. If
-C<$month> and C<$year> missing, it would return current calendar month.The Plugin
-L<Calendar::Plugin::Renderer> v0.06 or above must be installed for this to work.
+C<$month> and C<$year> missing, it would return current calendar month.
 
 =cut
 
 sub as_svg {
     my ($self, $month, $year) = @_;
 
-    die "ERROR: Plugin Calendar::Plugin::Renderer v0.06 or above is missing,".
-        "please install it first.\n" unless ($self->_plugin);
+    ($month, $year) = $self->validate_params($month, $year);
+    my $date = Date::Saka::Simple->new({ year => $year, month => $month, day => 1 });
+
+    return $self->svg_calendar(
+        {
+            start_index => $date->day_of_week,
+            month_name  => $date->get_month_name,
+            days        => $date->days_in_month_year($month, $year),
+            year        => $year
+        });
+}
+
+=head2 as_text($month, $year)
+
+Returns color coded Saka calendar for the given C<$month> and C<$year>.
+
+=cut
+
+sub as_text {
+    my ($self, $month, $year) = @_;
+
+    ($month, $year) = $self->validate_params($month, $year);
+    my $date = Date::Saka::Simple->new({ year => $year, month => $month, day => 1 });
+
+    return $self->text_calendar(
+        {
+            start_index => $date->day_of_week,
+            month_name  => $date->get_month_name,
+            days        => $date->days_in_month_year($month, $year),
+            day_names   => $date->days,
+            year        => $year
+        });
+}
+
+sub as_string {
+    my ($self) = @_;
+
+    return $self->as_text($self->month, $self->year);
+}
+
+#
+#
+# PRIVATE METHODS
+
+sub validate_params {
+    my ($self, $month, $year) = @_;
 
     if (defined $month && defined $year) {
         $self->date->validate_month($month);
         $self->date->validate_year($year);
 
         if ($month !~ /^\d+$/) {
-            $month = $self->get_month_number($month);
+            $month = $self->date->get_month_number($month);
         }
     }
     else {
@@ -209,19 +243,7 @@ sub as_svg {
         $year  = $self->year;
     }
 
-    my $date = Date::Saka::Simple->new({ year => $year, month => $month, day => 1 });
-
-    return $self->svg_calendar({
-        start_index => $date->day_of_week + 1,
-        month_name  => $date->get_month_name,
-        days        => $date->days_in_month_year($month, $year),
-        year        => $year });
-}
-
-sub as_string {
-    my ($self) = @_;
-
-    return $self->date->get_calendar($self->month, $self->year);
+    return ($month, $year);
 }
 
 =head1 AUTHOR

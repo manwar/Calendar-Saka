@@ -9,3 +9,5 @@ t/00-load.t
 t/manifest.t
 t/pod.t
 t/calendar-saka.t
+t/saka.xml
+t/fake-saka.xml
