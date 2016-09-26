@@ -1,5 +1,8 @@
 Revision history for Calendar::Saka
 
+1.28  Mon Sep 26 11:00:00 2016
+      - Added key 'provides' to the Makefile.PL script.
+
 1.27  Fri Aug 12 12:30:00 2016
       - Upgraded to use Date::Saka::Simple v0.15.
 

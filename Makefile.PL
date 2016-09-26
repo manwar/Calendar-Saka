@@ -28,6 +28,9 @@ WriteMakefile(
     clean => { FILES => 'Calendar-Saka-*' },
     (eval { ExtUtils::MakeMaker->VERSION(6.46) } ? (META_MERGE => {
         'meta-spec' => { version => 2 },
+        provides    => {
+            'Calendar::Saka' => { file => 'lib/Calendar/Saka.pm', version => '1.28' },
+        },
         resources => {
             repository => {
                 type => 'git',
