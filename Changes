@@ -1,5 +1,8 @@
 Revision history for Calendar::Saka
 
+1.29  Thu Oct 20 09:55:00 2016
+      - Added dependency on Calendar::Plugin::Renderer v0.11.
+
 1.28  Mon Sep 26 11:00:00 2016
       - Added key 'provides' to the Makefile.PL script.
 

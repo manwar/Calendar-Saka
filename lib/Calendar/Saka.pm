@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION   = '1.28';
+$Calendar::Saka::VERSION   = '1.29';
 $Calendar::Saka::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.28
+Version 1.29
 
 =cut
 
@@ -83,6 +83,9 @@ for the month of Chaitra year 1937
     +----------------+----------------+----------------+----------------+----------------+----------------+----------------+
     |             29 |             30 |                                                                                    |
     +----------------+----------------+----------------+----------------+----------------+----------------+----------------+
+
+The package L<App::calendr> provides command line tool  C<calendr> to display the
+supported calendars on the terminal.
 
 =head1 SYNOPSIS
 
