@@ -1,5 +1,8 @@
 Revision history for Calendar::Saka
 
+1.30  Mon Nov 14 09:20:00 2016
+      - Upgraded to use Date::Saka::Simple v0.17.
+
 1.29  Thu Oct 20 09:55:00 2016
       - Added dependency on Calendar::Plugin::Renderer v0.11.
 
