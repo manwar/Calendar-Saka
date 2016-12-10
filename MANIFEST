@@ -11,3 +11,5 @@ t/pod.t
 t/calendar-saka.t
 t/saka.xml
 t/fake-saka.xml
+t/meta-json.t
+t/meta-yml.t

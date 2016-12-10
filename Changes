@@ -1,5 +1,8 @@
 Revision history for Calendar::Saka
 
+1.31  Sat Dec 10 12:35:00 2016
+      - Added test scripts (t/meta-json.t and t/meta-yml.t).
+
 1.30  Mon Nov 14 09:20:00 2016
       - Upgraded to use Date::Saka::Simple v0.17.
 
