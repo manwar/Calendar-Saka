@@ -1,6 +1,6 @@
 package Calendar::Saka;
 
-$Calendar::Saka::VERSION   = '1.31';
+$Calendar::Saka::VERSION   = '1.32';
 $Calendar::Saka::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Calendar::Saka - Interface to Indian Calendar.
 
 =head1 VERSION
 
-Version 1.31
+Version 1.32
 
 =cut
 
@@ -103,6 +103,9 @@ supported calendars on the terminal.
 
     # prints current month saka calendar in SVG format.
     print Calendar::Saka->new->as_svg;
+
+    # prints current month saka calendar in text format.
+    print Calendar::Saka->new->as_text;
 
 =head1 SAKA MONTHS
 
@@ -200,7 +203,8 @@ sub as_svg {
 
 =head2 as_text($month, $year)
 
-Returns color coded Saka calendar for the given C<$month> and C<$year>.
+Returns  color  coded  Saka  calendar  for  the  given C<$month> and C<$year>. If
+C<$month> and C<$year> missing, it would return current calendar month.
 
 =cut
 

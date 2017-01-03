@@ -1,5 +1,9 @@
 Revision history for Calendar::Saka
 
+1.32  Tue Jan 03 07:55:00 2017
+      - Added sample code for method as_text() in the SYNOPSIS section.
+      - Updated pod document for method as_text().
+
 1.31  Sat Dec 10 12:35:00 2016
       - Added test scripts (t/meta-json.t and t/meta-yml.t).
 
