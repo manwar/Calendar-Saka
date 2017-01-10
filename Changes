@@ -1,5 +1,9 @@
 Revision history for Calendar::Saka
 
+1.33  Tue Jan 10 10:50:00 2017
+      - Added dependency on Calendar::Plugin::Renderer v0.12.
+      - Removed method validate_params(), no longer required.
+
 1.32  Tue Jan 03 07:55:00 2017
       - Added sample code for method as_text() in the SYNOPSIS section.
       - Updated pod document for method as_text().
